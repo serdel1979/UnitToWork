@@ -1,7 +1,9 @@
 ﻿using Company.DTO;
 using Company.Services.Services;
+using Company.Utils.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace Company.API.Controllers
 {
@@ -18,7 +20,7 @@ namespace Company.API.Controllers
 
 
         [HttpGet("all")]
-        public async Task<ResponseDTO<IEnumerable<DepartmentDTO>>> GetAllDepartments() {
+        public async Task<IActionResult> GetAllDepartments() {
         
             ResponseDTO<IEnumerable<DepartmentDTO>> response= new ResponseDTO<IEnumerable<DepartmentDTO>>();
             try
@@ -26,40 +28,46 @@ namespace Company.API.Controllers
                 response.Data = await _departmentService.GetAll();
                 response.IsSuccess = true;
                 response.Message = "Listado!!!";
-                return response;
+                return Ok(response);
+            }
+            catch (ExceptionManager ex)
+            {
+                return NotFound(new ResponseDTO<bool> { IsSuccess = false, Message = ex.Message });
+            }
+            catch (TaskCanceledException ex)
+            {
+                return Conflict(new ResponseDTO<bool> { IsSuccess = false, Message = ex.Message });
             }
             catch (Exception ex)
             {
-                response.IsSuccess = false;
-                response.Message = ex.Message;
-                return response;
+                return StatusCode(500, new ResponseDTO<bool> { IsSuccess = false, Message = "Ocurrió un error interno" });
             }
-        
+
         }
 
 
         [HttpPost]
-        public async Task<ResponseDTO<bool>> Create(DepartmentDTO department)
+        public async Task<IActionResult> Create(DepartmentDTO department)
         {
-            ResponseDTO<bool> response = new ResponseDTO<bool>();
             try
             {
                 await _departmentService.New(department);
-                response.IsSuccess = true;
-                response.Data = true;
-                response.Message = "Creado!!!";
-                return response;
-            }catch (Exception ex)
+                return Ok(new ResponseDTO<bool> { IsSuccess = true, Data = true, Message = "Creado!!!" });
+            }
+            catch (DuplicateNameException ex)
             {
-                response.IsSuccess = false;
-                response.Message = ex.Message;
-                return response;
+                return Conflict(new ResponseDTO<bool> { IsSuccess = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ResponseDTO<bool> { IsSuccess = false, Message = "Ocurrió un error interno" });
             }
         }
 
 
+
         [HttpPut("Id:int")]
-        public async Task<ResponseDTO<bool>> Edit(DepartmentDTO department, int Id)
+        public async Task<IActionResult> Edit(DepartmentDTO department, int Id)
         {
             ResponseDTO<bool> response = new ResponseDTO<bool>();
             try
@@ -68,17 +76,24 @@ namespace Company.API.Controllers
                 response.IsSuccess= true;
                 response.Message = "Actualizado!!!";
 
-                return response;
-            }catch (Exception ex)
+                return Ok(response);
+            }
+            catch (KeyNotFoundException ex)
             {
-                response.IsSuccess = false;
-                response.Message = ex.Message;
-                return response;
+                return NotFound(new ResponseDTO<bool> { IsSuccess = false, Message = ex.Message });
+            }
+            catch (DuplicateNameException ex)
+            {
+                return Conflict(new ResponseDTO<bool> { IsSuccess = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ResponseDTO<bool> { IsSuccess = false, Message = "Ocurrió un error interno" });
             }
         }
 
         [HttpGet("Id:int")]
-        public async Task<ResponseDTO<DepartmentDTO>> Get(int Id)
+        public async Task<IActionResult> Get(int Id)
         {
             ResponseDTO<DepartmentDTO> response = new ResponseDTO<DepartmentDTO>();
             try
@@ -87,19 +102,22 @@ namespace Company.API.Controllers
                 response.Data = await _departmentService.Get(Id);
                 response.IsSuccess = true;
                 response.Message = "Elemento encontrado!!!";
-                return response;
+                return Ok(response);
 
-            }catch  (Exception ex)
+            }
+            catch (KeyNotFoundException ex)
             {
-                response.Message = ex.Message;
-                response.IsSuccess = false;
-                return response;
+                return NotFound(new ResponseDTO<bool> { IsSuccess = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ResponseDTO<bool> { IsSuccess = false, Message = "Ocurrió un error interno" });
             }
         }
 
 
         [HttpDelete("Id:int")]
-        public async Task<ResponseDTO<bool>> Delete(int Id)
+        public async Task<IActionResult> Delete(int Id)
         {
             ResponseDTO<bool> response = new ResponseDTO<bool>();
             try
@@ -108,14 +126,16 @@ namespace Company.API.Controllers
                 await _departmentService.Delete(Id);
                 response.IsSuccess = true;
                 response.Message = "Elemento borrado!!!";
-                return response;
+                return Ok(response);
 
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new ResponseDTO<bool> { IsSuccess = false, Message = ex.Message });
             }
             catch (Exception ex)
             {
-                response.Message = ex.Message;
-                response.IsSuccess = false;
-                return response;
+                return StatusCode(500, new ResponseDTO<bool> { IsSuccess = false, Message = "Ocurrió un error interno" });
             }
         }
 

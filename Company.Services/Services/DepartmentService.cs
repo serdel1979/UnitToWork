@@ -2,6 +2,7 @@
 using Company.DB.Model;
 using Company.DTO;
 using Company.Repository.Repository;
+using Company.Utils.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -70,7 +71,7 @@ namespace Company.Services.Services
 
             if(fromModel is not null)
             {
-                throw new TaskCanceledException($"Ya existe un departamento con el nombre {department.Name}!!!");
+                throw new DuplicateNameException($"Ya existe un departamento con el nombre {department.Name}!!!");
             }
 
             Department newDep = mapper.Map<Department>(department);
@@ -84,23 +85,22 @@ namespace Company.Services.Services
 
         public async Task Update(DepartmentDTO department, int Id)
         {
-            var byId = _repository.Find(c => c.Id == Id);
-            var fromModel = await byId.FirstOrDefaultAsync();
-            if (fromModel is null)
+            var byId = await _repository.Find(c => c.Id == Id).FirstOrDefaultAsync();
+            if (byId == null)
             {
-                throw new TaskCanceledException($"No existe el id {Id}");
+                throw new KeyNotFoundException($"No existe el id {Id}");
             }
-            var byName = _repository.Find(c => c.Name.ToLower().Equals(department.Name.ToLower()));
-            var fromModelbyName = await byName.FirstOrDefaultAsync();
-            if (fromModelbyName is not null)
+
+            var byName = await _repository.Find(c => c.Name.ToLower() == department.Name.ToLower()).FirstOrDefaultAsync();
+            if (byName != null && byName.Id != Id)
             {
                 throw new DuplicateNameException($"Ya existe el nombre {department.Name}");
             }
-            fromModel.Name = department.Name;
 
-           // Department newDep = mapper.Map<Department>(department);
-            await _repository.Update(fromModel);
+            byId.Name = department.Name;
+            await _repository.Update(byId);
             await _repository.Save();
         }
+
     }
 }
