@@ -8,10 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Company.DB\Company.DB.csproj" />
-    <ProjectReference Include="..\Company.DTO\Company.DTO.csproj" />
     <ProjectReference Include="..\Company.Repository\Company.Repository.csproj" />
-    <ProjectReference Include="..\Company.UnitOfWork\Company.UnitOfWork.csproj" />
-    <ProjectReference Include="..\Company.Utils\Company.Utils.csproj" />
   </ItemGroup>
 
 </Project>

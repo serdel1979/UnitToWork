@@ -3,17 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Company.API", "Company.API\Company.API.csproj", "{E01CEB8E-DC5C-427F-8F88-840A814B5BCC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Company.API", "Company.API\Company.API.csproj", "{E01CEB8E-DC5C-427F-8F88-840A814B5BCC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Company.DB", "Company.DB\Company.DB.csproj", "{A0ECC079-038B-495A-A87F-A40AA5E559DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Company.DB", "Company.DB\Company.DB.csproj", "{A0ECC079-038B-495A-A87F-A40AA5E559DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Company.Repository", "Company.Repository\Company.Repository.csproj", "{5FDC1634-C2C2-42B5-9878-B282B19E3EDA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Company.Repository", "Company.Repository\Company.Repository.csproj", "{5FDC1634-C2C2-42B5-9878-B282B19E3EDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Company.Services", "Company.Services\Company.Services.csproj", "{AF5523F2-BF39-4388-BC6C-01DD3F507284}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Company.Services", "Company.Services\Company.Services.csproj", "{AF5523F2-BF39-4388-BC6C-01DD3F507284}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Company.Utils", "Company.Utils\Company.Utils.csproj", "{8B59FFC7-19AE-4FA9-95EB-4BEFE3CBBF55}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Company.Utils", "Company.Utils\Company.Utils.csproj", "{8B59FFC7-19AE-4FA9-95EB-4BEFE3CBBF55}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Company.DTO", "Company.DTO\Company.DTO.csproj", "{FEF180F1-F906-4162-976A-CCD762060A4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Company.DTO", "Company.DTO\Company.DTO.csproj", "{FEF180F1-F906-4162-976A-CCD762060A4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Company.UnitOfWork", "Company.UnitOfWork\Company.UnitOfWork.csproj", "{B67B3D14-E4B6-41C0-BFFF-A783829CC31F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{FEF180F1-F906-4162-976A-CCD762060A4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FEF180F1-F906-4162-976A-CCD762060A4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FEF180F1-F906-4162-976A-CCD762060A4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B67B3D14-E4B6-41C0-BFFF-A783829CC31F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B67B3D14-E4B6-41C0-BFFF-A783829CC31F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B67B3D14-E4B6-41C0-BFFF-A783829CC31F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B67B3D14-E4B6-41C0-BFFF-A783829CC31F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

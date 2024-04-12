@@ -14,6 +14,5 @@ namespace Company.Repository.Repository
         Task Create(TEntity entity);
         Task Delete(TEntity data);
         Task Update(TEntity data);
-        Task Save();
     }
 }

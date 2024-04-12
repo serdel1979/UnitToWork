@@ -1,6 +1,7 @@
 using Company.DB;
 using Company.Repository.Repository;
 using Company.Services.Services;
+using Company.UnitOfWork.UOW;
 using Company.Utils;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,6 +27,8 @@ builder.Services.AddDbContext<ContextCompany>(option =>
 builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 
 builder.Services.AddTransient<IDepartmentService, DepartmentService>();
+
+builder.Services.AddTransient<IUnitOfWork,UnitOfWork>();
 
 var app = builder.Build();
 
