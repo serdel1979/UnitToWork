@@ -95,7 +95,7 @@ namespace Company.API.Controllers
         [HttpGet("Id:int")]
         public async Task<IActionResult> Get(int Id)
         {
-            ResponseDTO<DepartmentDTO> response = new ResponseDTO<DepartmentDTO>();
+            ResponseDTO<DepartmentResponseDTO> response = new ResponseDTO<DepartmentResponseDTO>();
             try
             {
 

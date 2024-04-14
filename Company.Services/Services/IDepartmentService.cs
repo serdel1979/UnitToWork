@@ -14,7 +14,7 @@ namespace Company.Services.Services
         Task New(DepartmentDTO department);
         Task Delete(int Id);
         Task Update(DepartmentDTO department, int Id);
-        Task<DepartmentDTO> Get(int Id);
+        Task<DepartmentResponseDTO> Get(int Id);
         Task<IEnumerable<DepartmentDTO>> GetAll();
     }
 }

@@ -24,7 +24,7 @@ namespace Company.API.Controllers
         {
             try
             {
-                ResponseDTO<IEnumerable<WorkerDTO>> response = new ResponseDTO<IEnumerable<WorkerDTO>>
+                ResponseDTO<IEnumerable<WorkerResponseDTO>> response = new ResponseDTO<IEnumerable<WorkerResponseDTO>>
                 {
                     Data = await _workerService.GetAll(),
                     Message = "Listado",

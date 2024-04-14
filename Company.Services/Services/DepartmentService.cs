@@ -48,21 +48,25 @@ namespace Company.Services.Services
             return depstos.AsQueryable();
         }
 
-        public async Task<DepartmentDTO> Get(int Id)
+        public async Task<DepartmentResponseDTO> Get(int Id)
         {
-            var query = _unitOfWork.DepartmentRepository.Find(p => p.Id == Id);
+            var query = _unitOfWork.DepartmentRepository.Find(p => p.Id == Id)
+                .Include(d=>d.Workers);
             var find = await query.FirstOrDefaultAsync();
             if (find is null)
             {
                 throw new KeyNotFoundException($"No existe el Id {Id}");
             }
 
-            return mapper.Map<DepartmentDTO>(find);
+            return mapper.Map<DepartmentResponseDTO>(find);
         }
 
         public async Task<IEnumerable<DepartmentDTO>> GetAll()
         {
-            var depts = await _unitOfWork.DepartmentRepository.GetAll();
+            var depts = await _unitOfWork.DepartmentRepository
+                           .Find()
+                           .ToListAsync();
+
             return depts.Select(d => mapper.Map<DepartmentDTO>(d));
         }
 

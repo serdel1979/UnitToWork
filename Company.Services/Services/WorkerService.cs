@@ -2,6 +2,7 @@
 using Company.DB.Model;
 using Company.DTO;
 using Company.Repository.Repository;
+using Company.Strategy;
 using Company.UnitOfWork.UOW;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -43,7 +44,8 @@ namespace Company.Services.Services
 
         public async Task<WorkerDTO> Get(int Id)
         {
-            var query = _unitOfWork.WorkerRepository.Find(p => p.Id == Id);
+            var query = _unitOfWork.WorkerRepository.Find(p => p.Id == Id)
+                .Include(w=>w.Department);
             var find = await query.FirstOrDefaultAsync();
             if (find is null)
             {
@@ -53,21 +55,28 @@ namespace Company.Services.Services
             return _mapper.Map<WorkerDTO>(find);
         }
 
-        public async Task<IEnumerable<WorkerDTO>> GetAll()
+        public async Task<IEnumerable<WorkerResponseDTO>> GetAll()
         {
             var workers = await _unitOfWork.WorkerRepository.GetAll();
-            return _mapper.Map<IEnumerable<WorkerDTO>>(workers.AsEnumerable());
+            return _mapper.Map<IEnumerable<WorkerResponseDTO>>(workers.AsEnumerable());
         }
 
         public async Task New(WorkerDTO worker)
         {
             var findDepartment = await _unitOfWork.DepartmentRepository.Find(d => d.Id == worker.DepartmentId).FirstOrDefaultAsync();
-            if (findDepartment is null)
-            {
-                throw new KeyNotFoundException($"No existe departamento con id {worker.DepartmentId}");
-            }
-            await _unitOfWork.WorkerRepository.Create(_mapper.Map<Worker>(worker));
-            await _unitOfWork.SaveAsync();
+            //if (findDepartment is null)
+            //{
+            //    throw new KeyNotFoundException($"No existe departamento con id {worker.DepartmentId}");
+            //}
+            //await _unitOfWork.WorkerRepository.Create(_mapper.Map<Worker>(worker));
+            //await _unitOfWork.SaveAsync();
+            //Uso de patron strategy para el caso que no exista department
+
+            var context = (findDepartment is null) ?
+                           new DepartmentContext(new DepartmentNotExtist()) :
+                           new DepartmentContext(new DepartmentExist());
+            await context.Add(worker, _unitOfWork);
+
         }
 
         public async Task Update(WorkerDTO worker, int Id)

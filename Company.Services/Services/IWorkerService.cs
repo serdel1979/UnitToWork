@@ -14,6 +14,6 @@ namespace Company.Services.Services
         Task Delete(int Id);
         Task Update(WorkerDTO worker, int Id);
         Task<WorkerDTO> Get(int Id);
-        Task<IEnumerable<WorkerDTO>> GetAll();
+        Task<IEnumerable<WorkerResponseDTO>> GetAll();
     }
 }
