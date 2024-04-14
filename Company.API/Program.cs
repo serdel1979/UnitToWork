@@ -28,6 +28,8 @@ builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 
 builder.Services.AddTransient<IDepartmentService, DepartmentService>();
 
+builder.Services.AddTransient<IWorkerService, WorkerService>();
+
 builder.Services.AddTransient<IUnitOfWork,UnitOfWork>();
 
 var app = builder.Build();
